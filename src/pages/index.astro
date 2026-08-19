@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+
+// Featured first, then the rest in source order.
+const sorted = [...projects].sort((a, b) => {
+  if (a.featured && !b.featured) return -1;
+  if (!a.featured && b.featured) return 1;
+  return 0;
+});
+---
+
+<BaseLayout
+  title="Hanasalabs"
+  description="A space where ideas grow into experiments, and experiments grow into building blocks for what's next."
+>
+  <Hero />
+
+  {sorted.length > 0 && (
+    <section id="projects" class="mx-auto max-w-3xl px-6 pb-24">
+      <div class="mb-8 flex items-baseline justify-between">
+        <h2 class="text-2xl font-semibold tracking-tight text-foreground">
+          Projects
+        </h2>
+        <span class="text-sm text-muted-foreground">
+          {sorted.length} {sorted.length === 1 ? 'project' : 'projects'}
+        </span>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        {sorted.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </section>
+  )}
+
+  {sorted.length === 0 && (
+    <section class="mx-auto max-w-3xl px-6 pb-24">
+      <div
+        class="flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-muted/40 p-12 text-center"
+      >
+        <p class="text-sm text-muted-foreground">
+          No projects yet. Add entries in <code class="font-mono text-foreground">src/data/projects.ts</code>.
+        </p>
+      </div>
+    </section>
+  )}
+</BaseLayout>
