@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Article from '../../components/Article.astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.DEV ? true : data.draft !== true;
+  });
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+// post.body is the raw Markdown/MDX source, used to estimate reading time.
+---
+
+<BaseLayout
+  title={`${post.data.title} — HanasaLabs`}
+  description={post.data.description}
+  article={true}
+>
+  <section class="mx-auto max-w-3xl px-6 py-16">
+    <Article post={post} rawBody={post.body}>
+      <Content />
+    </Article>
+
+    <nav class="mt-16 flex items-center justify-between border-t border-border pt-6 text-sm">
+      <a
+        href="/blog"
+        class="text-muted-foreground transition-colors hover:text-foreground"
+      >
+        ← All posts
+      </a>
+    </nav>
+  </section>
+</BaseLayout>
