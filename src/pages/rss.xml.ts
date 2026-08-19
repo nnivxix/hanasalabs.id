@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
+import { APP_NAME } from '../lib/site';
 
 export async function GET(context: APIContext) {
   const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
@@ -8,7 +9,7 @@ export async function GET(context: APIContext) {
   );
 
   return rss({
-    title: 'Hanasalabs — Blog',
+    title: `${APP_NAME} — Blog`,
     description:
       'Notes on things I build, experiments, and write-ups on tools and workflows.',
     site: context.site!,

@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
+import { APP_NAME } from '../../lib/site';
 
 // Show drafts only in dev so the author can preview them.
 const posts = (await getCollection('blog', ({ data }) => {
@@ -10,7 +11,7 @@ const posts = (await getCollection('blog', ({ data }) => {
 ---
 
 <BaseLayout
-  title="Blog — HanasaLabs"
+  title={`Blog — ${APP_NAME}`}
   description="Notes on things I build, experiments, and write-ups on tools and workflows."
 >
   <section class="mx-auto max-w-3xl px-6 py-16">

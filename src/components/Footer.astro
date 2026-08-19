@@ -1,4 +1,6 @@
 ---
+import { APP_NAME } from '../lib/site';
+
 const year = new Date().getFullYear();
 ---
 
@@ -6,7 +8,7 @@ const year = new Date().getFullYear();
   <div
     class="mx-auto flex max-w-3xl flex-col items-center justify-between gap-2 px-6 py-6 text-sm text-muted-foreground sm:flex-row"
   >
-    <p>&copy; {year} HanasaLabs</p>
-    <p class="text-xs">Built with Astro</p>
+    <p>&copy; {year} {APP_NAME}</p>
+    <p class="text-xs">Built with Astro.</p>
   </div>
 </footer>

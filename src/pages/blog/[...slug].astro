@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Article from '../../components/Article.astro';
+import { APP_NAME } from '../../lib/site';
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection('blog', ({ data }) => {
@@ -20,7 +21,7 @@ const { Content } = await render(post);
 ---
 
 <BaseLayout
-  title={`${post.data.title} — HanasaLabs`}
+  title={`${post.data.title} — ${APP_NAME}`}
   description={post.data.description}
   article={true}
 >

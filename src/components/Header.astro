@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import { APP_NAME } from '../lib/site';
 
 const nav = [
   { href: '/', label: 'Home' },
@@ -11,7 +12,12 @@ const nav = [
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => {
   const normalized = href.replace(/\/$/, '') || '/';
-  return normalized === path;
+
+  // Home is active only when exactly on '/'.
+  if (normalized === '/') return path === '/';
+
+  // For other routes, match the segment (and any nested paths under it).
+  return path === normalized || path.startsWith(`${normalized}/`);
 };
 ---
 
@@ -23,9 +29,9 @@ const isActive = (href: string) => {
   >
     <a
       href="/"
-      class="text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
+      class="font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
     >
-      HanasaLabs
+      {APP_NAME}
     </a>
 
     <nav class="flex items-center gap-1">

@@ -2,11 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/ui/Button.astro';
 import Input from '../components/ui/Input.astro';
+import { APP_NAME } from '../lib/site';
 ---
 
 <BaseLayout
-  title="Contact — HanasaLabs"
-  description="Get in touch with HanasaLabs."
+  title={`Contact — ${APP_NAME}`}
+  description={`Get in touch with ${APP_NAME}.`}
 >
   <section class="mx-auto max-w-2xl px-6 py-16">
     <header class="mb-10">

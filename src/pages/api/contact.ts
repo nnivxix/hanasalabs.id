@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getResend, FROM_ADDRESS, CONTACT_TO_EMAIL } from '../../lib/resend';
+import { APP_NAME } from '../../lib/site';
 
 // This endpoint must run as a serverless function (not prerendered) so it
 // can read the request body and emit emails at runtime.
@@ -54,7 +55,7 @@ export const POST: APIRoute = async (context) => {
   try {
     const resend = getResend();
     const { error } = await resend.emails.send({
-      from: `Hanasalabs Contact <${FROM_ADDRESS}>`,
+      from: `${APP_NAME} Contact <${FROM_ADDRESS}>`,
       to: CONTACT_TO_EMAIL,
       replyTo: email,
       subject: `New message from ${name}`,

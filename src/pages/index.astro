@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { projects } from '../data/projects';
+import { APP_NAME } from '../lib/site';
 
 // Featured first, then the rest in source order.
 const sorted = [...projects].sort((a, b) => {
@@ -13,7 +14,7 @@ const sorted = [...projects].sort((a, b) => {
 ---
 
 <BaseLayout
-  title="Hanasalabs"
+  title={APP_NAME}
   description="A space where ideas grow into experiments, and experiments grow into building blocks for what's next."
 >
   <Hero />
