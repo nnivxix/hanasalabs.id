@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm build",
+  "outputDirectory": "dist/client",
+  "framework": "astro",
+  "functions": {
+    "src/pages/api/contact.ts": { "memory": 256, "maxDuration": 10 }
+  }
+}
