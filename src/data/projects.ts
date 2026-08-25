@@ -21,12 +21,49 @@ export interface Project {
  */
 export const projects: Project[] = [
   {
-    name: 'Example Project',
-    description: 'A short description of what this project does.',
-    url: 'https://example.com',
-    repo: 'https://github.com/nnivxix/example',
-    tags: ['TypeScript', 'Astro'],
+    name: 'Caption Gram',
+    description:
+      'A web app for extracting captions from Instagram, YouTube, and Facebook posts, with optional Telegram notifications.',
+    repo: 'https://github.com/nnivxix/caption-gram',
+    tags: ['Nuxt', 'Vue', 'TypeScript'],
     featured: true,
+    url: "https://caption-gram.hanasalabs.id/",
+    year: 2026,
+  },
+  {
+    name: 'YT CC Copy',
+    description:
+      'A browser extension that copies YouTube closed captions (CC) to the clipboard and saves them as per-video notes.',
+    repo: 'https://github.com/nnivxix/yt-cc-copy',
+    tags: ['WXT', 'Vue', 'TypeScript'],
+    url: "https://yt-cc-copy.hanasalabs.id/",
+    featured: true,
+    year: 2026,
+  },
+  {
+    name: 'PickPic',
+    description:
+      'Seamless Unsplash image exploration with instant markdown code generation for your content.',
+    repo: 'https://github.com/nnivxix/pickpic',
+    url: "https://pickpic.hanasalabs.id/",
+    tags: ['Nuxt', 'Vue', 'TypeScript'],
+    year: 2026,
+  },
+  {
+    name: 'LinearClipper',
+    description:
+      'A browser extension that streamlines copying and pasting issue links from Linear.app as Markdown.',
+    repo: 'https://github.com/nnivxix/linear-clipper',
+    tags: ['WXT', 'Vue', 'TypeScript'],
+    year: 2026,
+  },
+  {
+    name: 'Vilm',
+    description:
+      'A Next.js movie discovery app powered by the TMDB API.',
+    repo: 'https://github.com/nnivxix/vilm',
+    url: "https://vilm.hanasalabs.id/",
+    tags: ['Next.js', 'React', 'TypeScript'],
     year: 2025,
   },
 ];
