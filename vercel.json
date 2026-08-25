@@ -3,10 +3,5 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm build",
   "outputDirectory": "dist/client",
-  "framework": "astro",
-  "functions": {
-    "pages/api/**/*.js": {
-      "maxDuration": 30
-    }
-  }
+  "framework": "astro"
 }

@@ -8,7 +8,7 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   site: 'https://hanasalabs.id',
   output: 'static',
-  adapter: vercel(),
+  adapter: vercel({ maxDuration: 30 }),
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
