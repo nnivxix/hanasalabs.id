@@ -5,6 +5,8 @@
   "outputDirectory": "dist/client",
   "framework": "astro",
   "functions": {
-    "src/pages/api/contact.ts": { "memory": 256, "maxDuration": 10 }
+    "pages/api/**/*.js": {
+      "maxDuration": 30
+    }
   }
 }
