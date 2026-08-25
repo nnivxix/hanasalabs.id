@@ -1,0 +1,65 @@
+---
+import type { Project } from '../data/projects';
+import { cn } from '../lib/utils';
+
+interface Props {
+  project: Project;
+  class?: string;
+}
+
+const { project, class: className } = Astro.props;
+const { name, description, url, repo, tags, year } = project;
+
+// Prefer the live URL, fall back to the repo.
+const link = url ?? repo;
+---
+
+<article
+  class={cn(
+    'group relative flex flex-col gap-2 rounded-lg border border-border bg-card p-5 text-card-foreground',
+    'transition-colors hover:border-primary/50 hover:bg-accent/40',
+    className
+  )}
+>
+  <div class="flex items-start justify-between gap-3">
+    <h3 class="font-semibold text-foreground">
+      {link ? (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="after:absolute after:inset-0"
+        >
+          {name}
+        </a>
+      ) : (
+        name
+      )}
+    </h3>
+    {year && (
+      <span class="shrink-0 text-xs text-muted-foreground tabular-nums">{year}</span>
+    )}
+  </div>
+
+  {description && (
+    <p class="text-sm text-muted-foreground">{description}</p>
+  )}
+
+  {tags.length > 0 && (
+    <ul class="mt-auto flex flex-wrap gap-1.5 pt-2">
+      {tags.map((tag) => (
+        <li class="rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
+          {tag}
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {repo && (
+    <div class="pointer-events-none relative z-10 flex justify-end pt-1 text-muted-foreground">
+      <span class="text-xs underline-offset-4 group-hover:text-accent-foreground group-hover:underline">
+        {url ? 'Live' : 'Repo'} ↗
+      </span>
+    </div>
+  )}
+</article>

@@ -1,0 +1,113 @@
+---
+/**
+ * CodeComponent
+ *
+ * Maps to the `pre` HTML element in MDX via the `components` prop passed to
+ * `<Content />` (see `src/pages/blog/[...slug].astro`). Every fenced/indented
+ * code block in blog MDX is therefore rendered through this component, which
+ * attaches a "copy to clipboard" button.
+ *
+ * Docs:
+ *   https://docs.astro.build/en/guides/integrations-guide/mdx/#assigning-custom-components-to-html-elements
+ *   https://docs.astro.build/en/guides/integrations-guide/mdx/#passing-components-to-mdx-content
+ *
+ * The MDX child (the `<code>` element produced by the syntax highlighter) is
+ * forwarded through `<slot />`.
+ */
+
+import { cn } from '../lib/utils';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<pre
+  class={cn(
+    'group relative my-6 overflow-x-auto rounded-lg border border-border bg-muted/40 p-4 font-mono text-sm leading-relaxed text-foreground',
+    className,
+  )}
+  data-code-block
+><slot /><button
+    type="button"
+    data-copy-btn
+    aria-label="Copy code to clipboard"
+    class="absolute top-2 right-2 inline-flex h-7 items-center gap-1 rounded-md border border-border bg-background/80 px-2 text-xs font-medium text-muted-foreground opacity-0 backdrop-blur transition-all hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      data-copy-icon
+    >
+      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+    </svg>
+    <span data-copy-label>Copy</span>
+  </button>
+</pre>
+
+<script>
+  // Single document-level delegated click listener. No loop, no per-instance
+  // binding, and no `astro:page-load` re-binding needed — a document listener
+  // persists across View Transitions / client-side navigations automatically.
+  document.addEventListener('click', async (event) => {
+    const btn = (event.target as HTMLElement)?.closest('[data-copy-btn]');
+    if (!btn) return;
+
+    const block = btn.closest('pre[data-code-block]');
+    const codeEl = block?.querySelector('code');
+    if (!codeEl) return;
+
+    const text = codeEl.innerText;
+    let ok = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      } else {
+        // Fallback for browsers without the async Clipboard API.
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          ok = document.execCommand('copy');
+        } catch {
+          /* no-op */
+        }
+        document.body.removeChild(ta);
+      }
+    } catch {
+      /* no-op */
+    }
+
+    if (!ok) return;
+
+    btn.setAttribute('aria-label', 'Copied!');
+    const icon = btn.querySelector('[data-copy-icon]');
+    const label = btn.querySelector('[data-copy-label]');
+    if (icon) icon.innerHTML = '<path d="M20 6 9 17l-5-5"></path>';
+    if (label) label.textContent = 'Copied';
+
+    setTimeout(() => {
+      btn.setAttribute('aria-label', 'Copy code to clipboard');
+      if (icon) {
+        icon.innerHTML =
+          '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>';
+      }
+      if (label) label.textContent = 'Copy';
+    }, 1500);
+  });
+</script>

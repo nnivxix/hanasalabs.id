@@ -1,0 +1,34 @@
+---
+import { cn } from '../../lib/utils';
+
+// Extend the native <input> attributes so every valid HTML input prop is
+// supported automatically (autocomplete, min, max, step, pattern, ...),
+// plus our own `class` for cn()-based styling.
+type Props = astroHTML.JSX.InputHTMLAttributes & {
+  class?: string;
+};
+
+const {
+  type = 'text',
+  required = false,
+  disabled = false,
+  class: className,
+  ...rest
+} = Astro.props as Props;
+
+const classes = cn(
+  'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background',
+  'placeholder:text-muted-foreground',
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+  'disabled:cursor-not-allowed disabled:opacity-50',
+  className
+);
+---
+
+<input
+  type={type}
+  required={required}
+  disabled={disabled}
+  class={classes}
+  {...rest}
+/>

@@ -1,0 +1,56 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { APP_NAME } from '../lib/site';
+
+const nav : any[] = [
+  // { href: '/', label: 'Home' },
+  // { href: '/blog', label: 'Blog' },
+  // { href: '/contact', label: 'Contact' },
+];
+
+// Mark the current path active (normalize trailing slash).
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => {
+  const normalized = href.replace(/\/$/, '') || '/';
+
+  // Home is active only when exactly on '/'.
+  if (normalized === '/') return path === '/';
+
+  // For other routes, match the segment (and any nested paths under it).
+  return path === normalized || path.startsWith(`${normalized}/`);
+};
+---
+
+<header
+  class="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur"
+>
+  <div
+    class="mx-auto flex h-14 max-w-3xl items-center justify-between px-6"
+  >
+    <a
+      href="/"
+      class="font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
+    >
+      {APP_NAME}
+    </a>
+
+    <nav class="flex items-center gap-1">
+      {
+        nav.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              'rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
+              isActive(href)
+                ? 'text-foreground'
+                : 'text-muted-foreground hover:text-foreground',
+            ]}
+          >
+            {label}
+          </a>
+        ))
+      }
+      <ThemeToggle class="ml-1" />
+    </nav>
+  </div>
+</header>
